@@ -81,7 +81,7 @@ async function request(path: string, options: RequestInit = {}) {
 export const api = {
   // Doctor Login
   login: (email: string, password: string) =>
-    request("/doctor/login", {
+    request("/doctor-portal/login", {
       method: "POST",
       body: JSON.stringify({
         email,
