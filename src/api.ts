@@ -14,16 +14,15 @@ async function request(path: string, options: RequestInit = {}) {
 
   const url = `${BASE}${path}`;
 
-  // API Request Log
   console.log("========== API REQUEST ==========");
   console.log("URL:", url);
   console.log("METHOD:", options.method || "GET");
 
-  // Password/token ko console me expose nahi karna
   if (options.body) {
     try {
       const body = JSON.parse(options.body as string);
 
+      // Password console me show nahi karna
       if (body.password) {
         body.password = "***";
       }
@@ -54,7 +53,6 @@ async function request(path: string, options: RequestInit = {}) {
       };
     }
 
-    // API Response Log
     console.log("========== API RESPONSE ==========");
     console.log("STATUS:", response.status);
     console.log("OK:", response.ok);
@@ -79,7 +77,9 @@ async function request(path: string, options: RequestInit = {}) {
 }
 
 export const api = {
-  // Doctor Login
+  // =========================
+  // DOCTOR LOGIN
+  // =========================
   login: (email: string, password: string) =>
     request("/doctor-portal/login", {
       method: "POST",
@@ -89,33 +89,57 @@ export const api = {
       }),
     }),
 
-  // Doctor Registration
+  // =========================
+  // DOCTOR REGISTRATION
+  // =========================
   register: (data: any) =>
-    request("/doctor/register", {
+    request("/doctor-portal/register", {
       method: "POST",
       body: JSON.stringify(data),
     }),
 
-  // Doctor Profile
-  profile: () => request("/doctor/profile"),
+  // =========================
+  // DOCTOR PROFILE
+  // =========================
+  profile: () =>
+    request("/doctor-portal/profile"),
 
-  // Doctor Appointments
-  appointments: () => request("/doctor/appointments"),
+  // =========================
+  // DOCTOR STATUS
+  // =========================
+  status: () =>
+    request("/doctor-portal/status"),
 
-  // Doctor Patients
-  patients: () => request("/doctor/patients"),
+  // =========================
+  // APPOINTMENTS
+  // =========================
+  appointments: () =>
+    request("/doctor-portal/appointments"),
 
-  // Update Doctor Profile
+  // =========================
+  // PATIENTS
+  // =========================
+  patients: () =>
+    request("/doctor-portal/patients"),
+
+  // =========================
+  // UPDATE PROFILE
+  // =========================
   updateProfile: (data: any) =>
-    request("/doctor/profile", {
-      method: "PUT",
+    request("/doctor-portal/profile", {
+      method: "PATCH",
       body: JSON.stringify(data),
     }),
 
-  // Update Appointment Status
-  appointmentStatus: (id: string, status: string) =>
+  // =========================
+  // APPOINTMENT STATUS
+  // =========================
+  appointmentStatus: (
+    id: string,
+    status: string
+  ) =>
     request(
-      `/doctor/appointments/${encodeURIComponent(id)}/status`,
+      `/doctor-portal/appointments/${encodeURIComponent(id)}/status`,
       {
         method: "PATCH",
         body: JSON.stringify({
