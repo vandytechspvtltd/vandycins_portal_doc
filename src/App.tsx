@@ -101,41 +101,53 @@ function Login({
           </div>
         )}
 
-        <form onSubmit={submit}>
-          <label>Email</label>
+     <form onSubmit={submit}>
+  <label>Email</label>
 
-          <input
-            type="email"
-            required
-            autoComplete="email"
-            value={email}
-            onChange={(e) =>
-              setEmail(e.target.value)
-            }
-            placeholder="doctor@example.com"
-          />
+  <input
+    type="email"
+    required
+    autoComplete="email"
+    value={email}
+    onChange={(e) => setEmail(e.target.value)}
+    placeholder="doctor@example.com"
+  />
 
-          <label>Password</label>
+  <label>Password</label>
 
-          <input
-            type="password"
-            required
-            autoComplete="current-password"
-            value={password}
-            onChange={(e) =>
-              setPassword(e.target.value)
-            }
-            placeholder="••••••••"
-          />
+  <input
+    type="password"
+    required
+    autoComplete="current-password"
+    value={password}
+    onChange={(e) => setPassword(e.target.value)}
+    placeholder="••••••••"
+  />
 
-          <button
-            type="submit"
-            className="primary full"
-            disabled={busy}
-          >
-            {busy ? "Signing In..." : "Sign In"}
-          </button>
-        </form>
+  <button
+    type="submit"
+    className="primary full"
+    disabled={busy}
+  >
+    {busy ? "Signing In..." : "Sign In"}
+  </button>
+</form>
+
+<div className="auth-switch">
+  <span>Don't have a doctor account?</span>
+
+  <button
+    type="button"
+    className="link"
+    onClick={showRegister}
+  >
+    Register
+  </button>
+</div>
+
+<small>
+  Only approved and active doctors can access the portal.
+</small>
 
         <div className="auth-switch">
           <span>
@@ -669,30 +681,25 @@ function App() {
       );
     }
   }
-
-  if (!logged) {
-    if (authPage === "register") {
-      return (
-        <Registration
-          showLogin={() =>
-            setAuthPage("login")
-          }
-        />
-      );
-    }
-
+if (!logged) {
+  if (authPage === "register") {
     return (
-      <Login
-        done={(data) => {
-          setDoctor(data);
-          setProfile(data);
-        }}
-        showRegister={() =>
-          setAuthPage("register")
-        }
+      <Registration
+        showLogin={() => setAuthPage("login")}
       />
     );
   }
+
+  return (
+    <Login
+      done={(data) => {
+        setDoctor(data);
+        setProfile(data);
+      }}
+      showRegister={() => setAuthPage("register")}
+    />
+  );
+}
 
   const active =
     appointments.filter(
